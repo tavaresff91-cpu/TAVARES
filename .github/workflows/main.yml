@@ -1,0 +1,28 @@
+name: Windows Cloud PC - UltraFast
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Windows Cloud PC Turbo
+    runs-on: windows-latest
+    timeout-minutes: 10080  # 7 dias
+
+    steps:
+      - name: Download Essentials (Fast)
+        run: |
+          Invoke-WebRequest -Uri "https://www.dropbox.com/scl/fi/7eiczvgil84czu55dxep3/Downloads.bat?rlkey=wzdc1wxjsph2b7r0atplmdz3p&dl=1" -OutFile "Downloads.bat"
+          cmd /c Downloads.bat
+
+      - name: Start AnyDesk
+        run: |
+          if (Test-Path "start.bat") {
+            cmd /c start.bat
+          } else {
+            Write-Host "start.bat não encontrado."
+          }
+
+      - name: Quick Auto-Restart AnyDesk (No Loop Pesado)
+        run: |
+          for ($i=0; $i -lt 48;
